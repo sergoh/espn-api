@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var nconf = require('nconf');
+var parser = require('./lib/parser');
+var Bottomline = require('bottomline');
+
+
 nconf.env()
     .file({ file: 'config.json', search: true });
 //database
@@ -15,8 +19,15 @@ var db = monk(nconf.get("MONGOLAB_URI"));
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var scores = require('./routes/scores');
 
 var app = express();
+
+parser('mlb');
+
+Bottomline.mlb(function(e,data){
+  console.log(data);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,6 +49,7 @@ app.use(function(req,res,next){
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/scores/',scores);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
