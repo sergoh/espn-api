@@ -1,3 +1,3 @@
 {
-  "MONGOLAB_URI": ""
+  "MONGOLAB_URI": "replaceme with mongodburl"
 }
